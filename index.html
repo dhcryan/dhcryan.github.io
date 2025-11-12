@@ -1,1 +1,495 @@
-Hello World
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>최동훈 | AI/ML Researcher & Engineer</title>
+  <meta name="description" content="최동훈 (Dong‑Hun Choi) — AI/ML Researcher & Engineer. ECG 신호 품질 향상, 시계열 모델링, Multi‑Agent RAG, MLOps." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --panel: #12161b;
+      --text: #e8eef5;
+      --muted: #a9b4c1;
+      --accent: #00c2ff;
+      --accent-2: #6ae3ff;
+      --card: #0f1318;
+      --max: 1100px;
+      --radius: 16px;
+      --radius-lg: 24px;
+      --shadow: 0 12px 28px rgba(0,0,0,.4);
+    }
+    [data-theme="light"] {
+      --bg: #f8f9fa;
+      --panel: #ffffff;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --accent: #0066cc;
+      --accent-2: #0088ff;
+      --card: #ffffff;
+      --shadow: 0 12px 28px rgba(0,0,0,.1);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+      line-height: 1.6;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    [data-theme="dark"] body {
+      background: linear-gradient(180deg, #07090b 0%, #0b0d10 100%);
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 28px 20px 80px; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 13, 16, .7);
+      backdrop-filter: saturate(140%) blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    [data-theme="light"] header {
+      background: rgba(248, 249, 250, .9);
+      border-bottom: 1px solid rgba(0, 0, 0, .08);
+    }
+    .nav {
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+    .nav a { color: var(--muted); font-weight: 600; }
+    .nav a:hover { color: var(--text); }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    }
+    .brand span { font-weight: 700; color: var(--text); }
+    .theme-toggle {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, .12);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      background: rgba(0, 194, 255, .1);
+    }
+    [data-theme="light"] .theme-toggle {
+      border-color: rgba(0, 0, 0, .12);
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      padding: 48px 0;
+      align-items: start;
+    }
+    .hero-left {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .profile-img {
+      width: 140px;
+      height: 140px;
+      border-radius: var(--radius);
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, .1);
+      flex-shrink: 0;
+    }
+    [data-theme="light"] .profile-img {
+      border-color: rgba(0, 0, 0, .1);
+    }
+    .hero-info { flex: 1; }
+    .hero-card {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    [data-theme="light"] .hero-card {
+      border-color: rgba(0, 0, 0, .08);
+    }
+    .title {
+      font-size: clamp(28px, 3.6vw, 44px);
+      line-height: 1.2;
+      margin: 0 0 8px;
+    }
+    .subtitle {
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .06);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, .08);
+      font-size: 14px;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    [data-theme="light"] .badge {
+      background: rgba(0, 0, 0, .04);
+      border-color: rgba(0, 0, 0, .08);
+    }
+    .kvs { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    .row { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: var(--card);
+      color: var(--text);
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    [data-theme="light"] .btn {
+      border-color: rgba(0, 0, 0, .12);
+    }
+    .btn:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(0, 194, 255, .12);
+    }
+    section { padding: 18px 0 10px; }
+    h2 { font-size: 22px; margin: 28px 0 10px; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+    .card {
+      grid-column: span 12;
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: var(--radius);
+      padding: 18px;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    [data-theme="light"] .card {
+      border-color: rgba(0, 0, 0, .08);
+    }
+    .card h3 { margin: 0 0 6px; font-size: 18px; }
+    .meta { color: var(--muted); font-size: 14px; }
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 999px;
+      margin: 4px 6px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+      transition: border-color 0.3s ease;
+    }
+    [data-theme="light"] .pill {
+      border-color: rgba(0, 0, 0, .12);
+    }
+    .list { margin: 6px 0 0; padding-left: 18px; }
+    .list li { margin: 4px 0; }
+    .two { grid-column: span 6; }
+    .three { grid-column: span 4; }
+    .accent { color: var(--accent); }
+    footer {
+      margin-top: 40px;
+      color: var(--muted);
+      border-top: 1px solid rgba(255, 255, 255, .06);
+      padding: 20px 0;
+      transition: border-color 0.3s ease;
+    }
+    [data-theme="light"] footer {
+      border-top-color: rgba(0, 0, 0, .08);
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { flex-direction: column; align-items: center; text-align: center; }
+      .profile-img { width: 120px; height: 120px; }
+      .two, .three { grid-column: span 12; }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <div class="dot"></div>
+        <span>최동훈</span>
+      </div>
+      <nav class="row">
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- Hero -->
+    <section id="about">
+      <div class="hero">
+        <div class="hero-left">
+          <img src="최동훈_최종증명.png" alt="최동훈" class="profile-img" />
+          <div class="hero-info">
+            <h1 class="title">최동훈 (Dong‑Hun Choi)</h1>
+            <p class="subtitle">AI/ML Researcher & Engineer · ECG 신호 품질 향상 · 시계열 모델링 · Multi‑Agent RAG · MLOps</p>
+            <div class="kvs">
+              <span class="badge">Python</span>
+              <span class="badge">PyTorch</span>
+              <span class="badge">Transformers</span>
+              <span class="badge">ECG Denoising</span>
+              <span class="badge">Anomaly Detection</span>
+              <span class="badge">LangGraph</span>
+              <span class="badge">RAG</span>
+              <span class="badge">MLflow</span>
+              <span class="badge">Docker & CI/CD</span>
+            </div>
+            <div class="row" style="margin-top: 18px;">
+              <a class="btn" href="https://github.com/dhcryan" target="_blank" rel="noreferrer">GitHub</a>
+              <a class="btn" href="#research">논문/특허</a>
+              <a class="btn" href="#projects">프로젝트</a>
+            </div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <h3 style="margin-top: 0">About</h3>
+          <p style="margin: 6px 0 12px">아주대학교 인공지능학과 석사과정. 웨어러블 환경의 저품질 ECG 신호를 시간‑주파수 융합 기반 딥러닝으로 정제하고, R‑peak 검출/부정맥 분류 등 다운스트림 성능을 높이는 연구를 수행합니다. LangGraph 기반 멀티에이전트/RAG, MLOps 자동화도 병행합니다.</p>
+          <p class="meta">현재 관심: Dual‑branch Transformer, FAN layer, 시계열 결측 보간, 의료 RAG 품질, 비용 추적형 LLM 에이전트.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research & Publications -->
+    <section id="research">
+      <h2>Research & Publications</h2>
+      <div class="cards">
+        <article class="card two">
+          <h3>Dual‑FreqDAE: Time‑Frequency Fusion for ECG Denoising</h3>
+          <div class="meta">1st author · Submitted to Biomedical Signal Processing and Control (Aug 2025)</div>
+          <ul class="list">
+            <li>시간/주파수 듀얼 브랜치 + Transformer(FAN) 기반 혼합 노이즈 강건화</li>
+            <li>R‑peak 검출 및 부정맥 분류 등 다운스트림 지표 향상</li>
+            <li>특허 출원: 10‑2025‑0014670 (2025‑02‑05)</li>
+          </ul>
+          <div class="meta" style="margin-top: 12px;">
+            <a href="https://www.techrxiv.org/users/944707/articles/1314669-dual-freqdae-frequency-aware-dual-branch-transformer-autoencoder-for-ecg-denoising-in-mixed-noise-conditions" target="_blank" rel="noreferrer">📄 논문 보기</a>
+          </div>
+        </article>
+        <article class="card two">
+          <h3>ECG Imputation with TCN‑Transformer</h3>
+          <div class="meta">KSC 2024 · 논문경진대회 장려상</div>
+          <ul class="list">
+            <li>TCN 수용영역 확장 + Self‑Attention 결합으로 준주기 패턴 보간</li>
+            <li>Point/Subsequence missingness 모두에서 우수한 MAE</li>
+          </ul>
+          <div class="meta" style="margin-top: 12px;">
+            <a href="https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12042236" target="_blank" rel="noreferrer">📄 논문 보기</a>
+          </div>
+        </article>
+        <article class="card two">
+          <h3>DiTSA 기반 ECG 결측 복원</h3>
+          <div class="meta">KICS 2025</div>
+          <ul class="list">
+            <li>Dilated Temporal Self‑Attention을 이용한 결측 복원</li>
+            <li>Long‑term missingness 강건화</li>
+          </ul>
+          <div class="meta" style="margin-top: 12px;">
+            <a href="https://www.dbpia.co.kr/pdf/pdfView.do?nodeId=NODE12132542" target="_blank" rel="noreferrer">📄 논문 보기</a>
+          </div>
+        </article>
+        <article class="card two">
+          <h3>특허</h3>
+          <p class="meta">시간‑주파수 결합 기반 심전도 신호 노이즈 제거 프레임워크</p>
+          <p>출원번호 10‑2025‑0014670 · 출원일 2025‑02‑05</p>
+        </article>
+        <article class="card two">
+          <h3>ECG Signal Processing Research</h3>
+          <div class="meta">KICS 2025</div>
+          <p>심전도 신호 처리 관련 연구 논문</p>
+          <div class="meta" style="margin-top: 12px;">
+            <a href="https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12416361" target="_blank" rel="noreferrer">📄 논문 보기</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <h2>Selected Projects</h2>
+      <div class="cards">
+        <article class="card two">
+          <h3>AI 저작권 침해 대응 에이전트</h3>
+          <div class="meta">LangGraph · ResNet/SSIM 기반 유사도 · 법률 RAG</div>
+          <p>합성 이미지 판별과 판례 검색을 결합해 침해 가능성을 정량화하고 법률 Q&A를 제공.</p>
+          <div class="meta" style="margin-top: 12px;">
+            <a href="https://github.com/dhcryan/ai-copyright-dispute-agent" target="_blank" rel="noreferrer">Repository</a>
+          </div>
+        </article>
+        <article class="card two">
+          <h3>Multi‑Agent 챗봇 & MLOps 파이프라인</h3>
+          <div class="meta">LangGraph · vLLM · MLflow · GitHub Actions · Docker</div>
+          <p>여러 LLM 페르소나 협업, 실험/버전/서빙 자동화.</p>
+          <div class="meta" style="margin-top: 12px;">
+            <a href="https://github.com/dhcryan/devops-to-mlops-final-project-llm4cs" target="_blank" rel="noreferrer">Repository</a>
+          </div>
+        </article>
+        <article class="card two">
+          <h3>금융 분석 에이전트</h3>
+          <div class="meta">LangGraph · OpenAI · Streamlit/Plotly</div>
+          <p>자연어 질의에 따라 API 호출과 시각화를 자동 수행하는 분석 챗봇.</p>
+          <div class="meta" style="margin-top: 12px;">
+            <a href="https://github.com/dhcryan/alphavantage" target="_blank" rel="noreferrer">Repository</a>
+          </div>
+        </article>
+        <article class="card two">
+          <h3>서울시 따릉이 수급 불균형 해소 시스템</h3>
+          <div class="meta">RandomForest · Flask · React</div>
+          <p>혼잡 지역 수요예측과 추천 UI 구현. 교내 공모전 장려상.</p>
+          <div class="meta" style="margin-top: 12px;">
+            <a href="https://github.com/dhcryan/ddareung" target="_blank" rel="noreferrer">Repository</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Experience (Awards, Education, Certs 통합) -->
+    <section id="experience">
+      <h2>Experience</h2>
+      <div class="cards">
+        <article class="card three">
+          <h3>Education</h3>
+          <ul class="list">
+            <li>아주대학교 인공지능학과 석사 (2024.03 ~ 2026.02, GPA 4.23/4.50)</li>
+            <li>아주대학교 소프트웨어학과 학사 (2018.03 ~ 2024.02, GPA 3.68/4.50)</li>
+          </ul>
+        </article>
+        <article class="card three">
+          <h3>Awards</h3>
+          <ul class="list">
+            <li>KSC 2024 논문경진대회 장려상</li>
+            <li>아주대학교 SOFTCON 우수상/장려상 (2023)</li>
+            <li>SW 융합 챌린지 장려상</li>
+          </ul>
+        </article>
+        <article class="card three">
+          <h3>Activities</h3>
+          <ul class="list">
+            <li>KT AI 코딩 멘토</li>
+            <li>LG AIMers 4기</li>
+            <li>하나드림 아카데미 금융교육</li>
+          </ul>
+        </article>
+        <article class="card two">
+          <h3>Core Skills</h3>
+          <div>
+            <span class="pill">PyTorch</span>
+            <span class="pill">TensorFlow</span>
+            <span class="pill">Transformers</span>
+            <span class="pill">Signal Processing</span>
+            <span class="pill">Anomaly Detection</span>
+            <span class="pill">LangGraph</span>
+            <span class="pill">RAG</span>
+            <span class="pill">MLflow</span>
+            <span class="pill">Docker</span>
+            <span class="pill">FastAPI</span>
+            <span class="pill">PostgreSQL/MySQL</span>
+          </div>
+        </article>
+        <article class="card two">
+          <h3>Certifications</h3>
+          <ul class="list">
+            <li>OPIC IH (2025‑09)</li>
+            <li>SQLD (2025‑06)</li>
+            <li>ADsP (2025‑09)</li>
+            <li>컴퓨터활용능력 1급 (2019‑09)</li>
+            <li>AICE Associate (2025‑08)</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <h2>Contact</h2>
+      <div class="cards">
+        <article class="card two">
+          <h3>Get in touch</h3>
+          <p class="meta">협업/연구/구인 관련 논의 환영</p>
+          <ul class="list">
+            <li>Email: <a href="mailto:dhc4003@gmail.com">dhc4003@gmail.com</a></li>
+            <li>GitHub: <a href="https://github.com/dhcryan" target="_blank" rel="noreferrer">github.com/dhcryan</a></li>
+            <li>학과/랩: Ajou University, AI Dept. · LAMDA Lab</li>
+          </ul>
+        </article>
+        <article class="card two">
+          <h3>Quick Links</h3>
+          <ul class="list">
+            <li><a href="#research">논문/특허 목록</a></li>
+            <li><a href="#projects">프로젝트</a></li>
+            <li><a href="#experience">경력/활동</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap" style="padding: 0">
+        © <span id="y"></span> 최동훈 (Dong‑Hun Choi). All rights reserved.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    
+    // Load saved theme or default to dark
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+    
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    });
+    
+    function updateThemeIcon(theme) {
+      themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
+    }
+    
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
