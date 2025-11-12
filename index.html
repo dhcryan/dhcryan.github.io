@@ -7,229 +7,458 @@
   <meta name="description" content="최동훈 (Dong‑Hun Choi) — AI/ML Researcher & Engineer. ECG 신호 품질 향상, 시계열 모델링, Multi‑Agent RAG, MLOps." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0b0d10;
-      --panel: #12161b;
+      --bg: #0a0e1a;
+      --panel: #0f1419;
       --text: #e8eef5;
-      --muted: #a9b4c1;
-      --accent: #00c2ff;
-      --accent-2: #6ae3ff;
-      --card: #0f1318;
-      --max: 1100px;
-      --radius: 16px;
-      --radius-lg: 24px;
-      --shadow: 0 12px 28px rgba(0,0,0,.4);
+      --muted: #9ca3af;
+      --accent: #00d4ff;
+      --accent-2: #7c3aed;
+      --accent-3: #ec4899;
+      --card: #111827;
+      --card-hover: #1a2332;
+      --max: 1200px;
+      --radius: 20px;
+      --radius-lg: 28px;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 30px 80px rgba(0, 212, 255, 0.15);
     }
     [data-theme="light"] {
-      --bg: #f8f9fa;
+      --bg: #fafbfc;
       --panel: #ffffff;
-      --text: #1a1a1a;
-      --muted: #6b7280;
-      --accent: #0066cc;
-      --accent-2: #0088ff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #0066ff;
+      --accent-2: #7c3aed;
+      --accent-3: #ec4899;
       --card: #ffffff;
-      --shadow: 0 12px 28px rgba(0,0,0,.1);
+      --card-hover: #f8fafc;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 30px 80px rgba(0, 102, 255, 0.1);
     }
-    * { box-sizing: border-box; }
-    html, body {
+    * { 
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
       margin: 0;
       background: var(--bg);
       color: var(--text);
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
-      line-height: 1.6;
-      transition: background 0.3s ease, color 0.3s ease;
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+      line-height: 1.7;
+      transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-x: hidden;
     }
     [data-theme="dark"] body {
-      background: linear-gradient(180deg, #07090b 0%, #0b0d10 100%);
+      background: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 50%, #0f1419 100%);
+      background-attachment: fixed;
     }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .wrap { max-width: var(--max); margin: 0 auto; padding: 28px 20px 80px; }
+    [data-theme="light"] body {
+      background: linear-gradient(135deg, #fafbfc 0%, #f1f5f9 50%, #ffffff 100%);
+      background-attachment: fixed;
+    }
+    a { 
+      color: var(--accent); 
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    a:hover { 
+      color: var(--accent-2);
+      text-decoration: none;
+    }
+    .wrap { 
+      max-width: var(--max); 
+      margin: 0 auto; 
+      padding: 40px 24px 100px;
+    }
     header {
       position: sticky;
       top: 0;
-      z-index: 50;
-      background: rgba(11, 13, 16, .7);
-      backdrop-filter: saturate(140%) blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, .06);
-      transition: background 0.3s ease, border-color 0.3s ease;
+      z-index: 100;
+      background: rgba(10, 14, 26, 0.8);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
     [data-theme="light"] header {
-      background: rgba(248, 249, 250, .9);
-      border-bottom: 1px solid rgba(0, 0, 0, .08);
+      background: rgba(250, 251, 252, 0.9);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     }
     .nav {
       max-width: var(--max);
       margin: 0 auto;
       display: flex;
-      gap: 16px;
+      gap: 24px;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 20px;
+      padding: 16px 24px;
     }
-    .nav a { color: var(--muted); font-weight: 600; }
-    .nav a:hover { color: var(--text); }
-    .brand { display: flex; align-items: center; gap: 10px; }
+    .nav a { 
+      color: var(--muted); 
+      font-weight: 500;
+      font-size: 15px;
+      position: relative;
+      padding: 4px 0;
+    }
+    .nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 0.3s ease;
+    }
+    .nav a:hover {
+      color: var(--text);
+    }
+    .nav a:hover::after {
+      width: 100%;
+    }
+    .brand { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px;
+    }
     .brand .dot {
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+      animation: pulse 2s ease-in-out infinite;
     }
-    .brand span { font-weight: 700; color: var(--text); }
-    .theme-toggle {
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, .12);
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+    .brand span { 
+      font-weight: 700; 
+      font-size: 18px;
       color: var(--text);
-      padding: 8px 12px;
-      border-radius: 8px;
+      background: linear-gradient(135deg, var(--text), var(--muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .theme-toggle {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
       cursor: pointer;
-      font-size: 14px;
-      transition: all 0.2s ease;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
     }
     .theme-toggle:hover {
       border-color: var(--accent);
-      background: rgba(0, 194, 255, .1);
+      background: rgba(0, 212, 255, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
     }
     [data-theme="light"] .theme-toggle {
-      border-color: rgba(0, 0, 0, .12);
+      background: rgba(0, 0, 0, 0.05);
+      border-color: rgba(0, 0, 0, 0.1);
     }
     .hero {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-      padding: 48px 0;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      padding: 60px 0;
       align-items: start;
     }
     .hero-left {
       display: flex;
-      gap: 24px;
+      gap: 32px;
       align-items: flex-start;
     }
     .profile-img {
-      width: 140px;
-      height: 140px;
+      width: 160px;
+      height: 160px;
       border-radius: var(--radius);
       object-fit: cover;
-      border: 2px solid rgba(255, 255, 255, .1);
+      border: 3px solid transparent;
+      background: linear-gradient(var(--card), var(--card)) padding-box,
+                  linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3)) border-box;
       flex-shrink: 0;
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.3s ease;
     }
-    [data-theme="light"] .profile-img {
-      border-color: rgba(0, 0, 0, .1);
+    .profile-img:hover {
+      transform: scale(1.05) rotate(2deg);
     }
     .hero-info { flex: 1; }
     .hero-card {
-      background: var(--card);
-      border: 1px solid rgba(255, 255, 255, .06);
+      background: linear-gradient(135deg, var(--card) 0%, var(--card-hover) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: var(--radius-lg);
-      padding: 28px;
+      padding: 36px;
       box-shadow: var(--shadow);
-      transition: background 0.3s ease, border-color 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .hero-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(0, 212, 255, 0.2);
+    }
+    .hero-card:hover::before {
+      opacity: 1;
     }
     [data-theme="light"] .hero-card {
-      border-color: rgba(0, 0, 0, .08);
+      border-color: rgba(0, 0, 0, 0.06);
     }
     .title {
-      font-size: clamp(28px, 3.6vw, 44px);
-      line-height: 1.2;
-      margin: 0 0 8px;
+      font-size: clamp(32px, 4.5vw, 52px);
+      line-height: 1.1;
+      margin: 0 0 12px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent) 50%, var(--accent-2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     .subtitle {
       color: var(--muted);
-      margin: 0 0 18px;
+      margin: 0 0 24px;
+      font-size: 18px;
+      font-weight: 400;
     }
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, .06);
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(124, 58, 237, 0.1));
       color: var(--text);
-      border: 1px solid rgba(255, 255, 255, .08);
-      font-size: 14px;
-      transition: background 0.3s ease, border-color 0.3s ease;
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    .badge:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
     }
     [data-theme="light"] .badge {
-      background: rgba(0, 0, 0, .04);
-      border-color: rgba(0, 0, 0, .08);
+      background: linear-gradient(135deg, rgba(0, 102, 255, 0.08), rgba(124, 58, 237, 0.08));
+      border-color: rgba(0, 102, 255, 0.15);
     }
-    .kvs { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
-    .row { display: flex; gap: 16px; flex-wrap: wrap; }
+    .kvs { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 12px; 
+      margin: 24px 0;
+    }
+    .row { 
+      display: flex; 
+      gap: 16px; 
+      flex-wrap: wrap;
+    }
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, .12);
-      background: var(--card);
+      padding: 12px 20px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(135deg, var(--card), var(--card-hover));
       color: var(--text);
       font-weight: 600;
-      transition: all 0.2s ease;
+      font-size: 14px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
     }
-    [data-theme="light"] .btn {
-      border-color: rgba(0, 0, 0, .12);
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    .btn:hover::before {
+      left: 100%;
     }
     .btn:hover {
       border-color: var(--accent);
-      box-shadow: 0 0 0 4px rgba(0, 194, 255, .12);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 212, 255, 0.3);
     }
-    section { padding: 18px 0 10px; }
-    h2 { font-size: 22px; margin: 28px 0 10px; }
+    [data-theme="light"] .btn {
+      border-color: rgba(0, 0, 0, 0.1);
+    }
+    section { 
+      padding: 40px 0 20px;
+    }
+    h2 { 
+      font-size: 32px; 
+      margin: 0 0 32px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--text), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
     .cards {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      gap: 16px;
+      gap: 24px;
     }
     .card {
       grid-column: span 12;
-      background: var(--card);
-      border: 1px solid rgba(255, 255, 255, .06);
+      background: linear-gradient(135deg, var(--card) 0%, var(--card-hover) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: var(--radius);
-      padding: 18px;
-      transition: background 0.3s ease, border-color 0.3s ease;
+      padding: 28px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(0, 212, 255, 0.3);
+    }
+    .card:hover::before {
+      transform: scaleX(1);
     }
     [data-theme="light"] .card {
-      border-color: rgba(0, 0, 0, .08);
+      border-color: rgba(0, 0, 0, 0.08);
     }
-    .card h3 { margin: 0 0 6px; font-size: 18px; }
-    .meta { color: var(--muted); font-size: 14px; }
+    .card h3 { 
+      margin: 0 0 12px; 
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .meta { 
+      color: var(--muted); 
+      font-size: 14px;
+      line-height: 1.6;
+    }
     .pill {
       display: inline-block;
-      padding: 4px 10px;
-      border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 999px;
-      margin: 4px 6px 0 0;
+      padding: 6px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      margin: 6px 8px 0 0;
       font-size: 12px;
+      font-weight: 500;
       color: var(--muted);
-      transition: border-color 0.3s ease;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
     }
     [data-theme="light"] .pill {
-      border-color: rgba(0, 0, 0, .12);
+      border-color: rgba(0, 0, 0, 0.1);
+      background: rgba(0, 0, 0, 0.03);
     }
-    .list { margin: 6px 0 0; padding-left: 18px; }
-    .list li { margin: 4px 0; }
+    .list { 
+      margin: 12px 0 0; 
+      padding-left: 20px;
+    }
+    .list li { 
+      margin: 8px 0;
+      line-height: 1.7;
+    }
     .two { grid-column: span 6; }
     .three { grid-column: span 4; }
     .accent { color: var(--accent); }
+    .about-item {
+      display: flex;
+      gap: 12px;
+      margin: 16px 0;
+      align-items: flex-start;
+    }
+    .about-item-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .about-item-content {
+      flex: 1;
+    }
+    .about-item-content strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
     footer {
-      margin-top: 40px;
+      margin-top: 80px;
       color: var(--muted);
-      border-top: 1px solid rgba(255, 255, 255, .06);
-      padding: 20px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 32px 0;
+      text-align: center;
       transition: border-color 0.3s ease;
     }
     [data-theme="light"] footer {
-      border-top-color: rgba(0, 0, 0, .08);
+      border-top-color: rgba(0, 0, 0, 0.08);
     }
     @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; }
-      .hero-left { flex-direction: column; align-items: center; text-align: center; }
-      .profile-img { width: 120px; height: 120px; }
-      .two, .three { grid-column: span 12; }
+      .hero { 
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .hero-left { 
+        flex-direction: column; 
+        align-items: center; 
+        text-align: center;
+        gap: 24px;
+      }
+      .profile-img { 
+        width: 140px; 
+        height: 140px;
+      }
+      .two, .three { 
+        grid-column: span 12;
+      }
+      .wrap {
+        padding: 32px 20px 80px;
+      }
     }
   </style>
 </head>
@@ -271,7 +500,7 @@
               <span class="badge">MLflow</span>
               <span class="badge">Docker & CI/CD</span>
             </div>
-            <div class="row" style="margin-top: 18px;">
+            <div class="row" style="margin-top: 24px;">
               <a class="btn" href="https://github.com/dhcryan" target="_blank" rel="noreferrer">GitHub</a>
               <a class="btn" href="#research">논문/특허</a>
               <a class="btn" href="#projects">프로젝트</a>
@@ -279,9 +508,37 @@
           </div>
         </div>
         <div class="hero-card">
-          <h3 style="margin-top: 0">About</h3>
-          <p style="margin: 6px 0 12px">아주대학교 인공지능학과 석사과정. 웨어러블 환경의 저품질 ECG 신호를 시간‑주파수 융합 기반 딥러닝으로 정제하고, R‑peak 검출/부정맥 분류 등 다운스트림 성능을 높이는 연구를 수행합니다. LangGraph 기반 멀티에이전트/RAG, MLOps 자동화도 병행합니다.</p>
-          <p class="meta">현재 관심: Dual‑branch Transformer, FAN layer, 시계열 결측 보간, 의료 RAG 품질, 비용 추적형 LLM 에이전트.</p>
+          <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 24px;">About Me & Core Competencies</h3>
+          <div class="about-item">
+            <span class="about-item-icon">🎓</span>
+            <div class="about-item-content">
+              <strong>Graduate Researcher</strong> at Ajou University (Lamda Lab), focusing on time-series analysis, multimodal AI, and ECG signal processing.
+            </div>
+          </div>
+          <div class="about-item">
+            <span class="about-item-icon">🤖</span>
+            <div class="about-item-content">
+              Specialized in building <strong>LLM-powered Agents</strong> and complex workflows using LangGraph and OpenAI.
+            </div>
+          </div>
+          <div class="about-item">
+            <span class="about-item-icon">👁️</span>
+            <div class="about-item-content">
+              Experienced in <strong>Computer Vision</strong>, developing real-time object detection and tracking systems with YOLOv5 and StrongSORT.
+            </div>
+          </div>
+          <div class="about-item">
+            <span class="about-item-icon">🛠️</span>
+            <div class="about-item-content">
+              Proficient in creating end-to-end <strong>MLOps pipelines</strong> for automated training and deployment using Docker, GitHub Actions, and MLflow.
+            </div>
+          </div>
+          <div class="about-item">
+            <span class="about-item-icon">💡</span>
+            <div class="about-item-content">
+              Passionate about bridging the gap between cutting-edge research and robust, production-ready applications.
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -298,7 +555,7 @@
             <li>R‑peak 검출 및 부정맥 분류 등 다운스트림 지표 향상</li>
             <li>특허 출원: 10‑2025‑0014670 (2025‑02‑05)</li>
           </ul>
-          <div class="meta" style="margin-top: 12px;">
+          <div class="meta" style="margin-top: 16px;">
             <a href="https://www.techrxiv.org/users/944707/articles/1314669-dual-freqdae-frequency-aware-dual-branch-transformer-autoencoder-for-ecg-denoising-in-mixed-noise-conditions" target="_blank" rel="noreferrer">📄 논문 보기</a>
           </div>
         </article>
@@ -309,7 +566,7 @@
             <li>TCN 수용영역 확장 + Self‑Attention 결합으로 준주기 패턴 보간</li>
             <li>Point/Subsequence missingness 모두에서 우수한 MAE</li>
           </ul>
-          <div class="meta" style="margin-top: 12px;">
+          <div class="meta" style="margin-top: 16px;">
             <a href="https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12042236" target="_blank" rel="noreferrer">📄 논문 보기</a>
           </div>
         </article>
@@ -320,7 +577,7 @@
             <li>Dilated Temporal Self‑Attention을 이용한 결측 복원</li>
             <li>Long‑term missingness 강건화</li>
           </ul>
-          <div class="meta" style="margin-top: 12px;">
+          <div class="meta" style="margin-top: 16px;">
             <a href="https://www.dbpia.co.kr/pdf/pdfView.do?nodeId=NODE12132542" target="_blank" rel="noreferrer">📄 논문 보기</a>
           </div>
         </article>
@@ -330,10 +587,10 @@
           <p>출원번호 10‑2025‑0014670 · 출원일 2025‑02‑05</p>
         </article>
         <article class="card two">
-          <h3>ECG Signal Processing Research</h3>
+          <h3>생성형 AI 저작권 침해 대응을 위한 LangGraph 기반 LLM 에이전트 설계</h3>
           <div class="meta">KICS 2025</div>
-          <p>심전도 신호 처리 관련 연구 논문</p>
-          <div class="meta" style="margin-top: 12px;">
+          <p>LangGraph를 활용한 생성형 AI 저작권 침해 대응 에이전트 설계 및 구현</p>
+          <div class="meta" style="margin-top: 16px;">
             <a href="https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE12416361" target="_blank" rel="noreferrer">📄 논문 보기</a>
           </div>
         </article>
@@ -348,7 +605,7 @@
           <h3>AI 저작권 침해 대응 에이전트</h3>
           <div class="meta">LangGraph · ResNet/SSIM 기반 유사도 · 법률 RAG</div>
           <p>합성 이미지 판별과 판례 검색을 결합해 침해 가능성을 정량화하고 법률 Q&A를 제공.</p>
-          <div class="meta" style="margin-top: 12px;">
+          <div class="meta" style="margin-top: 16px;">
             <a href="https://github.com/dhcryan/ai-copyright-dispute-agent" target="_blank" rel="noreferrer">Repository</a>
           </div>
         </article>
@@ -356,7 +613,7 @@
           <h3>Multi‑Agent 챗봇 & MLOps 파이프라인</h3>
           <div class="meta">LangGraph · vLLM · MLflow · GitHub Actions · Docker</div>
           <p>여러 LLM 페르소나 협업, 실험/버전/서빙 자동화.</p>
-          <div class="meta" style="margin-top: 12px;">
+          <div class="meta" style="margin-top: 16px;">
             <a href="https://github.com/dhcryan/devops-to-mlops-final-project-llm4cs" target="_blank" rel="noreferrer">Repository</a>
           </div>
         </article>
@@ -364,7 +621,7 @@
           <h3>금융 분석 에이전트</h3>
           <div class="meta">LangGraph · OpenAI · Streamlit/Plotly</div>
           <p>자연어 질의에 따라 API 호출과 시각화를 자동 수행하는 분석 챗봇.</p>
-          <div class="meta" style="margin-top: 12px;">
+          <div class="meta" style="margin-top: 16px;">
             <a href="https://github.com/dhcryan/alphavantage" target="_blank" rel="noreferrer">Repository</a>
           </div>
         </article>
@@ -372,7 +629,7 @@
           <h3>서울시 따릉이 수급 불균형 해소 시스템</h3>
           <div class="meta">RandomForest · Flask · React</div>
           <p>혼잡 지역 수요예측과 추천 UI 구현. 교내 공모전 장려상.</p>
-          <div class="meta" style="margin-top: 12px;">
+          <div class="meta" style="margin-top: 16px;">
             <a href="https://github.com/dhcryan/ddareung" target="_blank" rel="noreferrer">Repository</a>
           </div>
         </article>
@@ -445,6 +702,7 @@
           <ul class="list">
             <li>Email: <a href="mailto:dhc4003@gmail.com">dhc4003@gmail.com</a></li>
             <li>GitHub: <a href="https://github.com/dhcryan" target="_blank" rel="noreferrer">github.com/dhcryan</a></li>
+            <li>LinkedIn: <a href="https://www.linkedin.com/in/%EB%8F%99%ED%9B%88-%EC%B5%9C-929815254/" target="_blank" rel="noreferrer">linkedin.com/in/동훈-최</a></li>
             <li>학과/랩: Ajou University, AI Dept. · LAMDA Lab</li>
           </ul>
         </article>
@@ -490,6 +748,20 @@
     
     // Year
     document.getElementById('y').textContent = new Date().getFullYear();
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
   </script>
 </body>
 </html>
